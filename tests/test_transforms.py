@@ -71,16 +71,18 @@ def test_filter_by_skill(spark):
     # create dataframe with test data
     input_row = Row("name", "technical_skills")
     input_df = spark.createDataFrame([
-        input_row("Paras", ["spark", "aws", "python", "aws"]),
-        input_row("Kendra", ["spark", "aws", "python", "gcp"])
+        input_row("Paras", ["spark", "aws", "python"]),
+        input_row("Kendra", ["spark", "bigquery", "gcp"])
     ])
 
     # Create datafram with expected results. We're going to filter by AWS, so Paras' row will be returned, not Kendra's
     expected_df = spark.createDataFrame([
-        input_row("Paras", ["spark", "aws", "python", "aws"])
+        input_row("Paras", ["spark", "aws", "python"])
     ])
 
     actual_df = filter_by_skill(input_df, "aws")
+    #actual_df.show()
+    #expected_df.show()
 
     #arguements are two dataframes, followed by the collumn they should be ordered on
     assert_df_equals(actual_df,expected_df,"name")

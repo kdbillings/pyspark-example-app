@@ -1,4 +1,4 @@
-from pyspark.sql.functions import col, explode, lower, concat_ws, split
+from pyspark.sql.functions import col, explode, lower, concat_ws, split, array_contains
 
 
 def count_per_skill(df):
@@ -26,6 +26,10 @@ def lower_array(df, array_col):
     return df.withColumn(array_col,
                          split(lower(concat_ws(",", col(array_col))), ","))
 
-# This is a dummy function that contains no logic. In this workshop, we will be adding the logic to make the test pass.
+# Workshop 3 function
+# using pyspark functions
 def filter_by_skill(dataframe,skill):
-    return dataframe
+    #https://spark.apache.org/docs/2.1.0/api/python/pyspark.sql.html using pyspark functions
+    result = dataframe.filter(array_contains(dataframe.technical_skills, skill))
+    return result
+
